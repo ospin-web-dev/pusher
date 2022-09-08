@@ -1,0 +1,25 @@
+codecov:
+  token: 1a05b121-46b8-4402-8a08-8f32ed888c8a
+comment:
+  layout: "reach, diff, files"
+  behavior: default
+  require_changes: true  # if true: only post the comment if coverage changes
+  require_base: no       # [yes :: must have a base report to post]
+  require_head: no       # [yes :: must have a head report to post]
+  branches:              # branch names that can post comment
+    - "main"
+coverage:
+  status:
+    project:
+      default:
+        target: 100%
+        threshold: 0%
+        paths:
+          - "src"
+    patch:
+      default:
+        target: 100%
+        threshold: 0%
+        paths:
+          - "src"
+

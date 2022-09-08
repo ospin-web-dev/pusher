@@ -1,0 +1,69 @@
+{
+  "name": "@ospin/pusher",
+  "author": "ospin-web-dev",
+  "version": "1.0.0",
+  "description": "OSPIN client sdk for calls to rest-like, JSON serving, HTTP API",
+  "main": "index.js",
+  "license": "GPL-3.0-or-later",
+  "engines": {
+    "node": "16.x",
+    "npm": ">=6"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ospin-web-dev/pusher.git"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "test-release": "npx semantic-release --dry-run",
+    "test": "jest",
+    "test-with-coverage": "jest --coverage",
+    "testWithCoverage": "jest --coverage",
+    "lint-diff": "LIST=$(git diff-index --name-only --diff-filter=d HEAD | grep .*\\.[jt]sx\\\\? | grep -v json); if [ \"$LIST\" ]; then eslint $LIST; fi",
+    "lint-diff-and-fix": "LIST=$(git diff-index --name-only --diff-filter=d HEAD | grep .*\\.[jt]sx\\\\? | grep -v json); if [ \"$LIST\" ]; then eslint --fix $LIST; fi",
+    "generate-docs": "npx jsdoc -r src/ index.js -d docs -t node_modules/jsdoc-baseline"
+  },
+  "files": [
+    "index.js",
+    "src/"
+  ],
+  "dependencies": {
+    "@aws-amplify/api-rest": "2.0.39",
+    "@aws-amplify/auth": "4.5.3",
+    "@aws-amplify/core": "4.5.3",
+    "pusher-js": "^7.0.3",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/git": "^10.0.1",
+    "eslint": "^8.15.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jest": "^26.1.5",
+    "eslint-plugin-jest-formatting": "^3.1.0",
+    "eslint-plugin-jsdoc": "^39.2.9",
+    "faker": "^5.5.3",
+    "jest": "^28.1.0",
+    "jsdoc-baseline": "^0.1.5",
+    "jsdocs": "^1.0.0",
+    "pusher-js-mock": "^0.3.8",
+    "semantic-release": "^19.0.2"
+  },
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "modulePaths": [
+      "<rootDir>/src",
+      "<rootDir>"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/test/mocks/assetMock.js"
+    }
+  }
+}

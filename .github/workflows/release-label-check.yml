@@ -1,0 +1,41 @@
+name: Enforce Release Label
+
+permissions:
+  actions: none
+  checks: write
+  contents: read
+  deployments: none
+  issues: read
+  packages: none
+  pull-requests: read
+  repository-projects: none
+  security-events: none
+  statuses: read
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - reopened
+      - labeled
+      - unlabeled
+
+jobs:
+  check-Label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v5.1.0
+        with:
+          script: |
+            const acceptableLabels = ['major','minor','patch']
+            const {data} = await github.rest.issues.listLabelsOnIssue({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            })
+            const labels = data.map(label => label.name)
+            const releaseLabels = labels.filter(label => acceptableLabels.includes(label))
+            if (releaseLabels.length < 1) { core.setFailed(`No Release Labels Detected`)}
+            if (releaseLabels.length > 1) { core.setFailed(`Multiple Release Labels Detected`) }
