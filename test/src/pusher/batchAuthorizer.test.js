@@ -1,5 +1,5 @@
 const faker = require('faker')
-const batchAuthorizer = require('pusher/batchAuthorizer')
+const batchAuthorizer = require('batchAuthorizer')
 
 const successfulMock = (userId, { channelNames } = {}) => ({
   data: {
@@ -17,12 +17,12 @@ const failingMock = (userId, { channelNames } = {}) => ({
   },
 })
 
-jest.mock('user/pusher/subscriptions/device/authorizeMany.js', () => jest.fn()
+jest.mock('subscriptions/device/authorizeMany.js', () => jest.fn()
   .mockImplementationOnce(successfulMock)
   .mockImplementationOnce(failingMock)
   .mockImplementationOnce(successfulMock))
 
-jest.mock('user/pusher/subscriptions/device/process/authorizeMany.js', () => jest.fn()
+jest.mock('subscriptions/device/process/authorizeMany.js', () => jest.fn()
   .mockImplementationOnce(successfulMock)
   .mockImplementationOnce(failingMock)
   .mockImplementationOnce(successfulMock))

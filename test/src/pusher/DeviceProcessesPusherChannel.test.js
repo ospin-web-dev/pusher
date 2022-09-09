@@ -1,5 +1,6 @@
 const faker = require('faker')
-const { DeviceProcessesPusherChannel, OspinPusherClient } = require('pusher')
+const OspinPusherClient = require('OspinPusherClient')
+const DeviceProcessesPusherChannel = require('channels/DeviceProcessesPusherChannel')
 
 jest.mock('pusher-js', () => {
   // eslint-disable-next-line

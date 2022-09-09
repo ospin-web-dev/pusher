@@ -6,7 +6,7 @@ const DeviceProcessPusherChannel = require('./channels/DeviceProcessPusherChanne
 const DeviceProcessStreamingDataPusherChannel = require('./channels/DeviceProcessStreamingDataPusherChannel')
 
 /**
- * @namespace pusher.pusher
+ * @namespace pusher
  */
 
 module.exports = {

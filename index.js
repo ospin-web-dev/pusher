@@ -1,7 +1,6 @@
 const { default: Amplify } = require('@aws-amplify/core')
-const user = require('./src/user')
-const pusher = require('./src/pusher')
 const { createConfig } = require('./src/amplify/configGenerator')
+const pusher = require('./src')
 
 const DEFAULT_OPTS = {
   ENV: 'dev',
@@ -34,7 +33,6 @@ const configure = customOptions => {
  */
 
 module.exports = {
-  user,
-  pusher,
+  ...pusher,
   configure,
 }

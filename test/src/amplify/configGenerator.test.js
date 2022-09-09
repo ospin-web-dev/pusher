@@ -13,53 +13,8 @@ describe('createConfig', () => {
         API: {
           endpoints: [
             {
-              endpoint: `https://api-${ENV}.ospin-services.com/datapoints/`,
-              name: 'datapoints',
-              region: AWS_REGION,
-            },
-            {
-              name: 'command',
-              endpoint: `https://api-${ENV}.ospin-services.com/commands/`,
-              region: AWS_REGION,
-            },
-            {
-              endpoint: `https://api-${ENV}.ospin-services.com/devices/`,
-              name: 'device',
-              region: AWS_REGION,
-            },
-            {
-              endpoint: `https://api-${ENV}.ospin-services.com/events/`,
-              name: 'event',
-              region: AWS_REGION,
-            },
-            {
-              endpoint: `https://api-${ENV}.ospin-services.com/processes/`,
-              name: 'process',
-              region: AWS_REGION,
-            },
-            {
               endpoint: `https://api-${ENV}.ospin-services.com/users/`,
               name: 'user',
-              region: AWS_REGION,
-            },
-            {
-              endpoint: `https://api-${ENV}.ospin-services.com/utils/`,
-              name: 'utils',
-              region: AWS_REGION,
-            },
-            {
-              endpoint: `https://api-${ENV}.ospin-services.com/logs/`,
-              name: 'log',
-              region: AWS_REGION,
-            },
-            {
-              endpoint: `https://api-${ENV}.ospin-services.com/uiconfigs/`,
-              name: 'uiconfig',
-              region: AWS_REGION,
-            },
-            {
-              endpoint: `https://api-${ENV}.ospin-services.com/licences/`,
-              name: 'licence',
               region: AWS_REGION,
             },
           ],

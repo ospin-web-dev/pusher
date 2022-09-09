@@ -1,4 +1,4 @@
-const getAPIKey = require('pusher/getAPIKey')
+const getAPIKey = require('getAPIKey')
 
 describe('getAPIKey', () => {
 

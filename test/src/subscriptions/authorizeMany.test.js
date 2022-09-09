@@ -1,9 +1,9 @@
 const { default: API } = require('@aws-amplify/api-rest')
 const uuidv4 = require('uuid').v4
 
-const authorizeMany = require('user/pusher/subscriptions/device/authorizeMany')
+const authorizeMany = require('subscriptions/device/authorizeMany')
 const { DEFAULT_REQ_OPTS } = require('utils/defaultReqOpts')
-const testDefaultHTTPResponses = require('../../../../../testHelpers/testDefaultHTTPResponses')
+const testDefaultHTTPResponses = require('../../testHelpers/testDefaultHTTPResponses')
 
 describe('authorizeMany', () => {
 

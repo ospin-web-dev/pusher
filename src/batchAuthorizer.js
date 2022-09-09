@@ -1,6 +1,6 @@
-const authorizeDeviceSubscriptions = require('../user/pusher/subscriptions/device/authorizeMany')
-const authorizeDeviceProcessSubscriptions = require('../user/pusher/subscriptions/device/process/authorizeMany')
-const RegexUtils = require('../utils/RegexUtils')
+const authorizeDeviceSubscriptions = require('./subscriptions/device/authorizeMany')
+const authorizeDeviceProcessSubscriptions = require('./subscriptions/device/process/authorizeMany')
+const RegexUtils = require('./utils/RegexUtils')
 
 let queuedRequests = []
 
