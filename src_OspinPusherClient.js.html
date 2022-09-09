@@ -56,10 +56,19 @@ class OspinPusherClient {
    * @returns {Object} reference to the pusher client
    */
 
-  static connect({ env, cluster &#x3D; &#x27;eu&#x27;, userId }) {
+  static connect({
+    env,
+    cluster &#x3D; &#x27;eu&#x27;,
+    userId,
+    authDeviceSubscriptions,
+    authDeviceProcessSubscriptions,
+  }) {
     const apiKey &#x3D; getAPIKey(env)
     if (OspinPusherClient.client) return OspinPusherClient.client
-    OspinPusherClient.client &#x3D; new Pusher(apiKey, { cluster, authorizer: batchAuthorizer(userId) })
+    OspinPusherClient.client &#x3D; new Pusher(apiKey, {
+      cluster,
+      authorizer: batchAuthorizer(userId, authDeviceSubscriptions, authDeviceProcessSubscriptions),
+    })
     return OspinPusherClient.client
   }
 

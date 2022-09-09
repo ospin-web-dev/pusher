@@ -26,7 +26,7 @@
           <header class="page-header">
             <div class="symbol-detail-labels"><span class="label label-kind">namespace</span></div>
             <h1><small></small><span class="symbol-name">pusher</span></h1>
-            <p class="source-link">Source: <a href="index.js.html#source-line-36">index.<wbr>js:36</a></p>
+            <p class="source-link">Source: <a href="index.js.html#source-line-8">index.<wbr>js:8</a></p>
             <div class="symbol-description">
             </div>
             <dl class="dl-compact">
@@ -68,43 +68,6 @@
                 </div>
               </div>
             </div>
-            <div class="summary-callout">
-              <h2 class="summary-callout-heading">Method</h2>
-              <div class="summary-content">
-                <div class="summary-column">
-                  <dl class="dl-summary-callout">
-                    <dt><a href="pusher.html#.configure">configure([customOptions])</a></dt>
-                    <dd>
-                    </dd>
-                  </dl>
-                </div>
-                <div class="summary-column">
-                </div>
-                <div class="summary-column">
-                </div>
-              </div>
-            </div>
-            <div class="summary-callout">
-              <h2 class="summary-callout-heading">Abstract types</h2>
-              <div class="summary-content">
-                <div class="summary-column">
-                  <dl class="dl-summary-callout">
-                    <dt><a href="pusher.html#.ApiResponse">ApiResponse</a></dt>
-                    <dd>
-                    </dd>
-                  </dl>
-                </div>
-                <div class="summary-column">
-                  <dl class="dl-summary-callout">
-                    <dt><a href="pusher.html#.AuthApiResponse">AuthApiResponse</a></dt>
-                    <dd>
-                    </dd>
-                  </dl>
-                </div>
-                <div class="summary-column">
-                </div>
-              </div>
-            </div>
           </section>
           <section>
             <h2>Namespaces</h2>
@@ -115,143 +78,6 @@
               <h3><a href="pusher.DeviceProcessStreamingDataPusherChannel.html">DeviceProcessStreamingDataPusherChannel</a></h3>
               <h3><a href="pusher.DevicePusherChannel.html">DevicePusherChannel</a></h3>
               <h3><a href="pusher.OspinPusherClient.html">OspinPusherClient</a></h3>
-            </section>
-            <h2>Method</h2>
-            <section>
-              <div class="symbol-detail-labels"><span class="label label-static">static</span></div>
-              <h3 id=".configure"><span class="symbol-name">configure</span><span class="signature"><span class="signature-params">([customOptions])</span>&nbsp;&rarr; <span class="signature-returns"> Object</span></span></h3>
-              <p>sets the environment and region for the API (required for the authorization)</p>
-              <section>
-                <h4>Parameters</h4>
-                <table class="jsdoc-details-table">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Type</th>
-                      <th>Optional</th>
-                      <th>Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <p>customOptions</p>
-                      </td>
-                      <td>
-                        <p>Object</p>
-                      </td>
-                      <td>
-                        <p>Yes</p>
-                      </td>
-                      <td>
-                        <p>Values in <code>customOptions</code> have the following properties:</p>
-                        <table class="jsdoc-details-table">
-                          <thead>
-                            <tr>
-                              <th>Name</th>
-                              <th>Type</th>
-                              <th>Optional</th>
-                              <th>Description</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>
-                                <p>ENV</p>
-                              </td>
-                              <td>
-                                <p>string</p>
-                              </td>
-                              <td>
-                                <p>Yes</p>
-                              </td>
-                              <td>
-                                <p>Defaults to <code>'dev'</code>.</p>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <p>AWS_REGION</p>
-                              </td>
-                              <td>
-                                <p>string</p>
-                              </td>
-                              <td>
-                                <p>Yes</p>
-                              </td>
-                              <td>
-                                <p>Defaults to <code>'eu-central-1'</code>.</p>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              <dl class="dl-compact">
-                <dt>Returns</dt>
-                <dd>
-                  <p><code>Object</code> the generated configuration for the given options</p>
-                </dd>
-              </dl>
-            </section>
-            <h2>Abstract types</h2>
-            <section>
-              <div class="symbol-detail-labels"><span class="label label-static">static</span></div>
-              <h3 id=".ApiResponse"><span class="symbol-name">ApiResponse</span></h3>
-              <p>API response in case of a successful API call</p>
-              <section>
-                <h4>Properties</h4>
-                <table class="jsdoc-details-table">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Type</th>
-                      <th>Optional</th>
-                      <th>Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <p>data</p>
-                      </td>
-                      <td>
-                        <p>object</p>
-                      </td>
-                      <td>
-                        <p>&nbsp;</p>
-                      </td>
-                      <td>
-                        <p>contains the server response</p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p>status</p>
-                      </td>
-                      <td>
-                        <p>number</p>
-                      </td>
-                      <td>
-                        <p>&nbsp;</p>
-                      </td>
-                      <td>
-                        <p>contains the server status code</p>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              <dl class="dl-compact">
-              </dl>
-              <div class="symbol-detail-labels"><span class="label label-static">static</span></div>
-              <h3 id=".AuthApiResponse"><span class="symbol-name">AuthApiResponse</span></h3>
-              <p>API response for the auth service; for responses check <a href="https://aws-amplify.github.io/amplify-js/api/classes/authclass.html%20"> the amplify auth module documentation</a></p>
-              <dl class="dl-compact">
-              </dl>
             </section>
           </section>
         </div>
