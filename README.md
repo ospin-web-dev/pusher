@@ -8,7 +8,6 @@ Documentation can be found [here](https://ospin-web-dev.github.io/pusher/).
 
 - [Use Overview](#Overview)
   - [Configuration](#Configuration)
-  - [Authenticating](#Authenticating-as-a-User)
 - [Use Examples](#Use-Examples)
 - [Contributing](#Contributing)
 ---
@@ -22,29 +21,21 @@ Documentation can be found [here](https://ospin-web-dev.github.io/pusher/).
 
 #### <a name="Configuration">Configuration</a>
 ```js
-const pusher = require('@ospin/pusher')
+// connect to the client
 
-/* required to talk to the OSPIN authentication service for pusher */
+const userId = "a3339d89-345b-4baf-9859-46a4542a505a"
+pusher.OspinClient.connect({
+  env: 'prod',
+  userId,
+  /* using the default auth methods provided in the @ospin/nexus package */
+  authDeviceSubscriptions: nexus.user.pusher.subscriptions.device.authorizeMany,
+  authDeviceProcessSubscriptions: nexus.user.pusher.subscriptions.device.process.authorizeMany,
+})
 
-pusher.configure({ ENV: 'prod' })
-```
-
-#### <a name="Authenticating-as-a-User">Authenticating</a>
-
-With the pusher configured, a user can authenticate as their OSPIN AWS Cognito user:
-
-```js
-const username = 'Nero'
-const password = 'BurnRome'
-pusher.auth.signIn(username, password) // may require 2FA
 ```
 
 ## <a name="Use-Examples">Use Example</a>
 ```js
-// connect to the client
-
-const userId = "a3339d89-345b-4baf-9859-46a4542a505a"
-pusher.OspinClient.connect({ env: 'prod', userId })
 
 // subscribe
 
