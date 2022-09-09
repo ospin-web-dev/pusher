@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/ospin-web-dev/pusher/branch/main/graph/badge.svg?token=C8290ABS0S)](https://codecov.io/gh/ospin-web-dev/pusher)
+
 Documentation can be found [here](https://ospin-web-dev.github.io/pusher/).
 
 ---
@@ -13,7 +15,7 @@ Documentation can be found [here](https://ospin-web-dev.github.io/pusher/).
 
 ## <a name="Overview">Overview</a>
 
-The @ospin/pusher is a JavaScript SDK to communicate to Ospin's pusher channel for real time information on devices and processes. It is build on top of pusher-js. To use it, the user has to be registered at OSPIN.
+@ospin/pusher is a JavaScript SDK to communicate to Ospin's pusher channel for real time information on devices and processes. It is build on top of pusher-js. To use it, the user has to be registered at OSPIN.
 
   - [configure pusher for the environment](#Configuration)
   - [Authentication](#Authenticating-as-a-User)
@@ -24,7 +26,7 @@ const pusher = require('@ospin/pusher')
 
 /* required to talk to the OSPIN authentication service for pusher */
 
-pusher.configure({ ENV: 'prod' }) // set up the SDK for default usage
+pusher.configure({ ENV: 'prod' })
 ```
 
 #### <a name="Authenticating-as-a-User">Authenticating</a>
