@@ -17,15 +17,15 @@ const failingMock = (userId, { channelNames } = {}) => ({
   },
 })
 
-jest.mock('subscriptions/device/authorizeMany.js', () => jest.fn()
+const authDeviceSubscriptions = jest.fn()
   .mockImplementationOnce(successfulMock)
   .mockImplementationOnce(failingMock)
-  .mockImplementationOnce(successfulMock))
+  .mockImplementationOnce(successfulMock)
 
-jest.mock('subscriptions/device/process/authorizeMany.js', () => jest.fn()
+const authDeviceProcessSubscriptions = jest.fn()
   .mockImplementationOnce(successfulMock)
   .mockImplementationOnce(failingMock)
-  .mockImplementationOnce(successfulMock))
+  .mockImplementationOnce(successfulMock)
 
 describe('batchAuthorizer', () => {
 
@@ -37,7 +37,7 @@ describe('batchAuthorizer', () => {
     it('executes the callback functions when a token is returned', async () => {
       const userId = faker.datatype.uuid()
       const deviceId = faker.datatype.uuid()
-      const authorizer = batchAuthorizer(userId)
+      const authorizer = batchAuthorizer(userId, authDeviceSubscriptions, authDeviceProcessSubscriptions)
       const channelName = `private-device_${deviceId}`
       const callback = jest.fn()
       const socketId = '12345.54321'
@@ -53,7 +53,7 @@ describe('batchAuthorizer', () => {
     it('executes the callback function when no token is returned', async () => {
       const userId = faker.datatype.uuid()
       const deviceId = faker.datatype.uuid()
-      const authorizer = batchAuthorizer(userId)
+      const authorizer = batchAuthorizer(userId, authDeviceSubscriptions, authDeviceProcessSubscriptions)
       const channelName = `private-device_${deviceId}`
       const callback = jest.fn()
       const socketId = '12345.54321'
@@ -71,7 +71,7 @@ describe('batchAuthorizer', () => {
       const userId = faker.datatype.uuid()
       const deviceId = faker.datatype.uuid()
       const processId = faker.datatype.uuid()
-      const authorizer = batchAuthorizer(userId)
+      const authorizer = batchAuthorizer(userId, authDeviceSubscriptions, authDeviceProcessSubscriptions)
       const channelName = `private-device_${deviceId}_process_${processId}`
       const callback = jest.fn()
       const socketId = '12345.54321'
@@ -88,7 +88,7 @@ describe('batchAuthorizer', () => {
       const userId = faker.datatype.uuid()
       const deviceId = faker.datatype.uuid()
       const processId = faker.datatype.uuid()
-      const authorizer = batchAuthorizer(userId)
+      const authorizer = batchAuthorizer(userId, authDeviceSubscriptions, authDeviceProcessSubscriptions)
       const channelName = `private-device_${deviceId}_process_${processId}`
       const callback = jest.fn()
       const socketId = '12345.54321'
@@ -106,7 +106,7 @@ describe('batchAuthorizer', () => {
       const userId = faker.datatype.uuid()
       const deviceId = faker.datatype.uuid()
       const processId = faker.datatype.uuid()
-      const authorizer = batchAuthorizer(userId)
+      const authorizer = batchAuthorizer(userId, authDeviceSubscriptions, authDeviceProcessSubscriptions)
       const channelName1 = `private-device_${deviceId}`
       const channelName2 = `private-device_${deviceId}_process_${processId}`
       const callback = jest.fn()

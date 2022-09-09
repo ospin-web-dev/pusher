@@ -25,10 +25,19 @@ class OspinPusherClient {
    * @returns {Object} reference to the pusher client
    */
 
-  static connect({ env, cluster = 'eu', userId }) {
+  static connect({
+    env,
+    cluster = 'eu',
+    userId,
+    authDeviceSubscriptions,
+    authDeviceProcessSubscriptions,
+  }) {
     const apiKey = getAPIKey(env)
     if (OspinPusherClient.client) return OspinPusherClient.client
-    OspinPusherClient.client = new Pusher(apiKey, { cluster, authorizer: batchAuthorizer(userId) })
+    OspinPusherClient.client = new Pusher(apiKey, {
+      cluster,
+      authorizer: batchAuthorizer(userId, authDeviceSubscriptions, authDeviceProcessSubscriptions),
+    })
     return OspinPusherClient.client
   }
 

@@ -1,13 +1,3 @@
-const { default: Amplify } = require('@aws-amplify/core')
-const configGenerator = require('../src/amplify/configGenerator')
-
-const injectMerkelIntoArgObjectAndReturn = args => ({
-  ...args,
-  merkel: 'you bet',
-})
-jest.spyOn(configGenerator, 'createConfig')
-  .mockImplementation(injectMerkelIntoArgObjectAndReturn)
-
 const pusher = require('../index')
 
 describe('pusher', () => {
@@ -15,7 +5,6 @@ describe('pusher', () => {
   afterAll(() => { jest.restoreAllMocks() })
 
   const MODULE_STRUCTURE = {
-    configure: 'function',
     OspinPusherClient: 'function',
     DevicePusherChannel: 'function',
     DeviceMaintenancePusherChannel: 'function',
@@ -91,31 +80,4 @@ describe('pusher', () => {
   }
 
   testModuleStructure(MODULE_STRUCTURE, [ 'pusher' ])
-
-  describe('connect', () => {
-    it('calls createConfig with the expected default connection options if none are provided', () => {
-      pusher.configure()
-
-      expect(configGenerator.createConfig).toHaveBeenCalledWith({
-        ENV: 'dev',
-        AWS_REGION: 'eu-central-1',
-      })
-    })
-
-    it('calls Amplify.configure with configGenerator.createConfig\'s returned value', () => {
-      // see imports for the spy on configGenerator,
-      // which needed to be spied on before the pusher was imported
-      jest.spyOn(Amplify, 'configure').mockImplementation()
-
-      const connectionOpts = {
-        ENV: 'test',
-        AWS_REGION: 'its-all-merkels-realm-now',
-      }
-      pusher.configure(connectionOpts)
-
-      expect(Amplify.configure).toHaveBeenCalledWith(
-        injectMerkelIntoArgObjectAndReturn(connectionOpts),
-      )
-    })
-  })
 })
