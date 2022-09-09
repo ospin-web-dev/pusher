@@ -5,7 +5,7 @@ const getAPIKey = require('./getAPIKey')
 let client = null
 
 /**
- * @namespace pusher.pusher.OspinPusherClient
+ * @namespace pusher.OspinPusherClient
  */
 
 class OspinPusherClient {
@@ -16,7 +16,7 @@ class OspinPusherClient {
 
   /**
    * @desc connects the client
-   * @memberof pusher.pusher.OspinPusherClient
+   * @memberof pusher.OspinPusherClient
    * @function connect
    * @param {Object} connectOptions
    * @param {string} connectOptions.env
@@ -35,7 +35,7 @@ class OspinPusherClient {
   /**
    * @desc registers a handler for a pusher client event
    * (for pusher native events like `state_change`)
-   * @memberof pusher.pusher.OspinPusherClient
+   * @memberof pusher.OspinPusherClient
    * @function registerConnectionEvent
    * @param {string} eventName
    * @param {Function} eventHandler
@@ -54,7 +54,7 @@ class OspinPusherClient {
 
   /**
    * @desc disconnects the client
-   * @memberof pusher.pusher.OspinPusherClient
+   * @memberof pusher.OspinPusherClient
    * @function disconnect
    */
 

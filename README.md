@@ -1,5 +1,3 @@
-[![codecov](https://codecov.io/gh/ospin-web-dev/synapse/branch/main/graph/badge.svg?token=5E41F0X7TY)](https://codecov.io/gh/ospin-web-dev/synapse)
-
 Documentation can be found [here](https://ospin-web-dev.github.io/pusher/).
 
 ---
@@ -15,7 +13,7 @@ Documentation can be found [here](https://ospin-web-dev.github.io/pusher/).
 
 ## <a name="Overview">Overview</a>
 
-The @ospin/pusher is a JavaScript SDK to communicate to Ospin's HTTP API. It is build on top of @aws-amplify. To use it, the user has to be registered at OSPIN.
+The @ospin/pusher is a JavaScript SDK to communicate to Ospin's pusher channel for real time information on devices and processes. It is build on top of pusher-js. To use it, the user has to be registered at OSPIN.
 
   - [configure pusher for the environment](#Configuration)
   - [Authentication](#Authenticating-as-a-User)
@@ -24,7 +22,9 @@ The @ospin/pusher is a JavaScript SDK to communicate to Ospin's HTTP API. It is 
 ```js
 const pusher = require('@ospin/pusher')
 
-pusher.configure() // set up the SDK for default usage
+/* required to talk to the OSPIN authentication service for pusher */
+
+pusher.configure({ ENV: 'prod' }) // set up the SDK for default usage
 ```
 
 #### <a name="Authenticating-as-a-User">Authenticating</a>
@@ -39,14 +39,27 @@ pusher.auth.signIn(username, password) // may require 2FA
 
 ## <a name="Use-Examples">Use Example</a>
 ```js
-// loading a process
+// connect to the client
 
-const processId = "a3339d89-345b-4baf-9859-46a4542a505a"
-const {
-  status: 200,
-  data: process,
-} = await pusher.process.get(processId)
+const userId = "a3339d89-345b-4baf-9859-46a4542a505a"
+pusher.OspinClient.connect({ env: 'prod', userId })
 
+// subscribe
+
+const deviceId = "b3249d89-345b-4baf-9859-46a4542a505a"
+const handlers = {
+  "device-state-update": data => console.log(data)
+}
+
+pusher.DevicePusherChannel.subscribe({ deviceId }, handlers)
+
+// unsubscribe
+
+pusher.DevicePusherChannel.unsubscribe({ deviceId })
+
+// disconnect
+
+pusher.OspinClient.disconnect()
 
 ```
 

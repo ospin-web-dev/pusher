@@ -1,14 +1,14 @@
 const DeviceProcessSpecificPusherChannel = require('./DeviceProcessSpecificPusherChannel')
 
 /**
- * @namespace pusher.pusher.DeviceProcessStreamingDataPusherChannel
+ * @namespace pusher.DeviceProcessStreamingDataPusherChannel
  */
 
 class DeviceProcessStreamingDataPusherChannel extends DeviceProcessSpecificPusherChannel {
 
   /**
    * @desc subscribes to the channel
-   * @memberof pusher.pusher.DeviceProcessStreamingDataPusherChannel
+   * @memberof pusher.DeviceProcessStreamingDataPusherChannel
    * @function subscribe
    * @param {Object} channelParams
    * @param {string} channelParams.deviceId
@@ -19,7 +19,7 @@ class DeviceProcessStreamingDataPusherChannel extends DeviceProcessSpecificPushe
 
   /**
    * @desc unsubscribe from the channel
-   * @memberof pusher.pusher.DeviceProcessStreamingDataPusherChannel
+   * @memberof pusher.DeviceProcessStreamingDataPusherChannel
    * @function unsubscribe
    * @param {Object} channelParams
    * @param {string} channelParams.deviceId

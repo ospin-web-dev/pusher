@@ -16,26 +16,12 @@ describe('pusher', () => {
 
   const MODULE_STRUCTURE = {
     configure: 'function',
-    pusher: {
-      OspinPusherClient: 'function',
-      DevicePusherChannel: 'function',
-      DeviceMaintenancePusherChannel: 'function',
-      DeviceProcessesPusherChannel: 'function',
-      DeviceProcessPusherChannel: 'function',
-      DeviceProcessStreamingDataPusherChannel: 'function',
-    },
-    user: {
-      pusher: {
-        subscriptions: {
-          device: {
-            authorizeMany: 'function',
-            process: {
-              authorizeMany: 'function',
-            },
-          },
-        },
-      },
-    },
+    OspinPusherClient: 'function',
+    DevicePusherChannel: 'function',
+    DeviceMaintenancePusherChannel: 'function',
+    DeviceProcessesPusherChannel: 'function',
+    DeviceProcessPusherChannel: 'function',
+    DeviceProcessStreamingDataPusherChannel: 'function',
   }
 
   function testFunctionPresentInModule(functionName, module) {
