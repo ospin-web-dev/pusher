@@ -2,7 +2,7 @@
   "name": "@ospin/pusher",
   "author": "ospin-web-dev",
   "version": "1.0.0",
-  "description": "OSPIN client sdk for calls to rest-like, JSON serving, HTTP API",
+  "description": "OSPIN package for communcation to the pusher channels of the OSPIN cloud",
   "main": "index.js",
   "license": "GPL-3.0-or-later",
   "engines": {
@@ -34,8 +34,7 @@
     "@aws-amplify/api-rest": "2.0.39",
     "@aws-amplify/auth": "4.5.3",
     "@aws-amplify/core": "4.5.3",
-    "pusher-js": "^7.0.3",
-    "uuid": "^8.3.2"
+    "pusher-js": "^7.0.3"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.1",
