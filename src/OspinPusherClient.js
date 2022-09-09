@@ -22,13 +22,26 @@ class OspinPusherClient {
    * @param {string} connectOptions.env
    * @param {string} connectOptions.userId
    * @param {string} connectOptions.cluster='eu'
+   * @param {string} connectOptions.authDeviceSubscriptions function to authorize for
+   * all device specific channels
+   * @param {string} connectOptions.authDeviceProcessSubscriptions function to authorize for
+   * all device process specific channels
    * @returns {Object} reference to the pusher client
    */
 
-  static connect({ env, cluster = 'eu', userId }) {
+  static connect({
+    env,
+    cluster = 'eu',
+    userId,
+    authDeviceSubscriptions,
+    authDeviceProcessSubscriptions,
+  }) {
     const apiKey = getAPIKey(env)
     if (OspinPusherClient.client) return OspinPusherClient.client
-    OspinPusherClient.client = new Pusher(apiKey, { cluster, authorizer: batchAuthorizer(userId) })
+    OspinPusherClient.client = new Pusher(apiKey, {
+      cluster,
+      authorizer: batchAuthorizer(userId, authDeviceSubscriptions, authDeviceProcessSubscriptions),
+    })
     return OspinPusherClient.client
   }
 

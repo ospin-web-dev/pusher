@@ -31,9 +31,6 @@
     "src/"
   ],
   "dependencies": {
-    "@aws-amplify/api-rest": "2.0.39",
-    "@aws-amplify/auth": "4.5.3",
-    "@aws-amplify/core": "4.5.3",
     "pusher-js": "^7.0.3"
   },
   "devDependencies": {
