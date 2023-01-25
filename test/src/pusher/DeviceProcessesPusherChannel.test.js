@@ -25,6 +25,7 @@ describe('the DeviceProcessesPusherChannel', () => {
       expect(map).toStrictEqual({
         RUNNING_PROCESS_STATE_UPDATE: 'running-process-state-update',
         PROCESS_DOWNLOAD_REQUEST_UPDATED: 'process-download-request-updated',
+        PROCESS_PDF_REPORT_REQUEST_UPDATED: 'process-pdf-report-request-updated',
       })
     })
   })
