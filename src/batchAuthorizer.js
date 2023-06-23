@@ -14,7 +14,7 @@ const stopQueueing = () => {
 const uuidRegString = RegexUtils.UUIDV4_REGEX_STRING
 
 const isDeviceChannel = channelName => {
-  const regex = new RegExp(`private-device_${uuidRegString}$`)
+  const regex = new RegExp(`private-device_${uuidRegString}(|_processes|_maintenance)$`)
   return regex.test(channelName)
 }
 
