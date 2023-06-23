@@ -14,7 +14,7 @@ Documentation can be found [here](https://ospin-web-dev.github.io/pusher/).
 
 ## <a name="Overview">Overview</a>
 
-@ospin/pusher is a JavaScript SDK to communicate to Ospin's pusher channel for real time information on devices and processes. It is build on top of pusher-js. To use it, the user has to be registered at OSPIN.
+@ospin/pusher is a JavaScript SDK to communicate to Ospin's pusher channel for real time information on devices and processes. It is build on top of pusher-js. To use it the user has to be registered at OSPIN.
 
   - [configure pusher for the environment](#Configuration)
   - [Authentication](#Authenticating-as-a-User)
