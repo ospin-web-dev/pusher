@@ -4,7 +4,7 @@
 <head>
   <meta name="generator" content="JSDoc 3.6.11">
   <meta charset="utf-8">
-  <title>Source: index.js</title>
+  <title>Source: src/channels/UserPusherChannel.js</title>
   <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
   <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
   <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
@@ -26,28 +26,46 @@
         </div>
         <div id="jsdoc-main" role="main">
           <header class="page-header">
-            <h1>Source: index.js</h1>
+            <h1>Source: src/channels/UserPusherChannel.js</h1>
           </header>
           <article>
-            <pre class="prettyprint linenums"><code>const OspinPusherClient &#x3D; require(&#x27;./src/OspinPusherClient&#x27;)
-const DevicePusherChannel &#x3D; require(&#x27;./src/channels/DevicePusherChannel&#x27;)
-const DeviceMaintenancePusherChannel &#x3D; require(&#x27;./src/channels/DeviceMaintenancePusherChannel&#x27;)
-const DeviceProcessesPusherChannel &#x3D; require(&#x27;./src/channels/DeviceProcessesPusherChannel&#x27;)
-const DeviceProcessPusherChannel &#x3D; require(&#x27;./src/channels/DeviceProcessPusherChannel&#x27;)
-const DeviceProcessStreamingDataPusherChannel &#x3D; require(&#x27;./src/channels/DeviceProcessStreamingDataPusherChannel&#x27;)
+            <pre class="prettyprint linenums"><code>const UserSpecificPusherChannel &#x3D; require(&#x27;./UserSpecificPusherChannel&#x27;)
 
 /**
- * @namespace pusher
+ * @namespace pusher.UserPusherChannel
  */
 
-module.exports &#x3D; {
-  OspinPusherClient,
-  DevicePusherChannel,
-  DeviceMaintenancePusherChannel,
-  DeviceProcessesPusherChannel,
-  DeviceProcessPusherChannel,
-  DeviceProcessStreamingDataPusherChannel,
+class UserPusherChannel extends UserSpecificPusherChannel {
+
+  /**
+   * @desc subscribes to the channel
+   * @memberof pusher.UserPusherChannel
+   * @function subscribe
+   * @param {Object} channelParams
+   * @param {string} channelParams.userId
+   * @param {Object} eventHandlers a map that maps event names to their handlers.
+   * Current events: &#x60;user-add-notifications&#x60;
+   */
+
+  /**
+   * @desc unsubscribe from the channel
+   * @memberof pusher.UserPusherChannel
+   * @function unsubscribe
+   * @param {Object} channelParams
+   * @param {string} channelParams.deviceId
+   */
+
+  static get CHANNEL_NAME_SUFFIX() { return &#x27;&#x27; }
+
+  static get EVENTS() {
+    return {
+      USER_ADD_NOTIFICATIONS: &#x27;user-add-notifications&#x27;,
+    }
+  }
+
 }
+
+module.exports &#x3D; UserPusherChannel
 </code></pre>
           </article>
         </div>
