@@ -17,107 +17,237 @@ const failingMock = (userId, { channelNames } = {}) => ({
   },
 })
 
-const authDeviceSubscriptions = jest.fn()
-  .mockImplementationOnce(successfulMock)
-  .mockImplementationOnce(failingMock)
-  .mockImplementationOnce(successfulMock)
-
-const authDeviceProcessSubscriptions = jest.fn()
-  .mockImplementationOnce(successfulMock)
-  .mockImplementationOnce(failingMock)
-  .mockImplementationOnce(successfulMock)
-
 describe('batchAuthorizer', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
-  describe('when only non process device channels are authorized', () => {
-    it('executes the callback functions when a token is returned', async () => {
-      const userId = faker.string.uuid()
-      const deviceId = faker.string.uuid()
-      const authorizer = batchAuthorizer(userId, authDeviceSubscriptions, authDeviceProcessSubscriptions)
-      const channelName = `private-device_${deviceId}`
-      const callback = jest.fn()
-      const socketId = '12345.54321'
+  describe('when subscribing to user channels', () => {
+    describe('when the request is successful', () => {
+      it('executes the callback with the correct payload', async () => {
+        const userId = faker.datatype.uuid()
+        const channelName = `private-user_${userId}`
+        const callback = jest.fn()
+        const socketId = '12345.54321'
 
-      authorizer({ name: channelName }).authorize(socketId, callback)
-      authorizer({ name: channelName }).authorize(socketId, callback)
-      await new Promise(resolve => setTimeout(resolve, 1))
+        const authUserSubscriptions = jest.fn()
+          .mockImplementationOnce(successfulMock)
+        const authDeviceSubscriptions = jest.fn()
+        const authDeviceProcessSubscriptions = jest.fn()
 
-      expect(callback).toHaveBeenCalledTimes(2)
-      expect(callback).toHaveBeenCalledWith(false, { auth: 'token' })
+        const authorizer = batchAuthorizer(
+          userId,
+          authUserSubscriptions,
+          authDeviceSubscriptions,
+          authDeviceProcessSubscriptions,
+        )
+
+        authorizer({ name: channelName }).authorize(socketId, callback)
+        authorizer({ name: channelName }).authorize(socketId, callback)
+        await new Promise(resolve => setTimeout(resolve, 1))
+
+        expect(authUserSubscriptions).toHaveBeenCalledTimes(1)
+        expect(callback).toHaveBeenCalledTimes(2)
+        expect(callback).toHaveBeenCalledWith(false, { auth: 'token' })
+      })
     })
 
-    it('executes the callback function when no token is returned', async () => {
-      const userId = faker.string.uuid()
-      const deviceId = faker.string.uuid()
-      const authorizer = batchAuthorizer(userId, authDeviceSubscriptions, authDeviceProcessSubscriptions)
-      const channelName = `private-device_${deviceId}`
-      const callback = jest.fn()
-      const socketId = '12345.54321'
+    describe('when the request is NOT successful', () => {
+      it('executes the callback with the correct payload', async () => {
+        const userId = faker.datatype.uuid()
+        const channelName = `private-user_${userId}`
+        const callback = jest.fn()
+        const socketId = '12345.54321'
 
-      authorizer({ name: channelName }).authorize(socketId, callback)
-      await new Promise(resolve => setTimeout(resolve, 1))
+        const authUserSubscriptions = jest.fn()
+          .mockImplementationOnce(failingMock)
+        const authDeviceSubscriptions = jest.fn()
+        const authDeviceProcessSubscriptions = jest.fn()
 
-      expect(callback).toHaveBeenCalledTimes(1)
-      expect(callback).toHaveBeenCalledWith(true, null)
-    })
-  })
+        const authorizer = batchAuthorizer(
+          userId,
+          authUserSubscriptions,
+          authDeviceSubscriptions,
+          authDeviceProcessSubscriptions,
+        )
 
-  describe('when only process device channels are authorized', () => {
-    it('executes the callback functions when a token is returned', async () => {
-      const userId = faker.string.uuid()
-      const deviceId = faker.string.uuid()
-      const processId = faker.string.uuid()
-      const authorizer = batchAuthorizer(userId, authDeviceSubscriptions, authDeviceProcessSubscriptions)
-      const channelName = `private-device_${deviceId}_process_${processId}`
-      const callback = jest.fn()
-      const socketId = '12345.54321'
+        authorizer({ name: channelName }).authorize(socketId, callback)
+        authorizer({ name: channelName }).authorize(socketId, callback)
+        await new Promise(resolve => setTimeout(resolve, 1))
 
-      authorizer({ name: channelName }).authorize(socketId, callback)
-      authorizer({ name: channelName }).authorize(socketId, callback)
-      await new Promise(resolve => setTimeout(resolve, 1))
-
-      expect(callback).toHaveBeenCalledTimes(2)
-      expect(callback).toHaveBeenCalledWith(false, { auth: 'token' })
-    })
-
-    it('executes the callback function when no token is returned', async () => {
-      const userId = faker.string.uuid()
-      const deviceId = faker.string.uuid()
-      const processId = faker.string.uuid()
-      const authorizer = batchAuthorizer(userId, authDeviceSubscriptions, authDeviceProcessSubscriptions)
-      const channelName = `private-device_${deviceId}_process_${processId}`
-      const callback = jest.fn()
-      const socketId = '12345.54321'
-
-      authorizer({ name: channelName }).authorize(socketId, callback)
-      await new Promise(resolve => setTimeout(resolve, 1))
-
-      expect(callback).toHaveBeenCalledTimes(1)
-      expect(callback).toHaveBeenCalledWith(true, null)
+        expect(authUserSubscriptions).toHaveBeenCalledTimes(1)
+        expect(callback).toHaveBeenCalledTimes(2)
+        expect(callback).toHaveBeenCalledWith(true, null)
+      })
     })
   })
 
-  describe('when device process and non device process channels are authorized', () => {
-    it('executes the callback functions when a token is returned', async () => {
-      const userId = faker.string.uuid()
-      const deviceId = faker.string.uuid()
-      const processId = faker.string.uuid()
-      const authorizer = batchAuthorizer(userId, authDeviceSubscriptions, authDeviceProcessSubscriptions)
-      const channelName1 = `private-device_${deviceId}`
-      const channelName2 = `private-device_${deviceId}_process_${processId}`
+  describe('when subscribing to device channels', () => {
+    describe('when the request is successful', () => {
+      it('executes the callback with the correct payload', async () => {
+        const userId = faker.datatype.uuid()
+        const deviceId = faker.datatype.uuid()
+        const channelName = `private-device_${deviceId}`
+        const callback = jest.fn()
+        const socketId = '12345.54321'
+
+        const authUserSubscriptions = jest.fn()
+        const authDeviceSubscriptions = jest.fn()
+          .mockImplementationOnce(successfulMock)
+        const authDeviceProcessSubscriptions = jest.fn()
+
+        const authorizer = batchAuthorizer(
+          userId,
+          authUserSubscriptions,
+          authDeviceSubscriptions,
+          authDeviceProcessSubscriptions,
+        )
+
+        authorizer({ name: channelName }).authorize(socketId, callback)
+        authorizer({ name: channelName }).authorize(socketId, callback)
+        await new Promise(resolve => setTimeout(resolve, 1))
+
+        expect(authDeviceSubscriptions).toHaveBeenCalledTimes(1)
+        expect(callback).toHaveBeenCalledTimes(2)
+        expect(callback).toHaveBeenCalledWith(false, { auth: 'token' })
+      })
+    })
+
+    describe('when the request is NOT successful', () => {
+      it('executes the callback with the correct payload', async () => {
+        const userId = faker.datatype.uuid()
+        const deviceId = faker.datatype.uuid()
+        const channelName = `private-device_${deviceId}`
+        const callback = jest.fn()
+        const socketId = '12345.54321'
+
+        const authUserSubscriptions = jest.fn()
+        const authDeviceSubscriptions = jest.fn()
+          .mockImplementationOnce(failingMock)
+        const authDeviceProcessSubscriptions = jest.fn()
+
+        const authorizer = batchAuthorizer(
+          userId,
+          authUserSubscriptions,
+          authDeviceSubscriptions,
+          authDeviceProcessSubscriptions,
+        )
+
+        authorizer({ name: channelName }).authorize(socketId, callback)
+        authorizer({ name: channelName }).authorize(socketId, callback)
+        await new Promise(resolve => setTimeout(resolve, 1))
+
+        expect(authDeviceSubscriptions).toHaveBeenCalledTimes(1)
+        expect(callback).toHaveBeenCalledTimes(2)
+        expect(callback).toHaveBeenCalledWith(true, null)
+      })
+    })
+  })
+
+  describe('when subscribing to device process channels', () => {
+    describe('when the request is successful', () => {
+      it('executes the callback with the correct payload', async () => {
+        const userId = faker.datatype.uuid()
+        const deviceId = faker.datatype.uuid()
+        const processId = faker.datatype.uuid()
+        const channelName1 = `private-device_${deviceId}_process_${processId}`
+        const channelName2 = `private-device_${deviceId}_process_${processId}`
+        const callback = jest.fn()
+        const socketId = '12345.54321'
+
+        const authUserSubscriptions = jest.fn()
+        const authDeviceSubscriptions = jest.fn()
+        const authDeviceProcessSubscriptions = jest.fn()
+          .mockImplementationOnce(successfulMock)
+
+        const authorizer = batchAuthorizer(
+          userId,
+          authUserSubscriptions,
+          authDeviceSubscriptions,
+          authDeviceProcessSubscriptions,
+        )
+
+        authorizer({ name: channelName1 }).authorize(socketId, callback)
+        authorizer({ name: channelName2 }).authorize(socketId, callback)
+        await new Promise(resolve => setTimeout(resolve, 1))
+
+        expect(authDeviceProcessSubscriptions).toHaveBeenCalledTimes(1)
+        expect(callback).toHaveBeenCalledTimes(2)
+        expect(callback).toHaveBeenCalledWith(false, { auth: 'token' })
+      })
+    })
+
+    describe('when the request is NOT successful', () => {
+      it('executes the callback with the correct payload', async () => {
+        const userId = faker.datatype.uuid()
+        const deviceId = faker.datatype.uuid()
+        const processId = faker.datatype.uuid()
+        const channelName1 = `private-device_${deviceId}_process_${processId}`
+        const channelName2 = `private-device_${deviceId}_process_${processId}`
+        const callback = jest.fn()
+        const socketId = '12345.54321'
+
+        const authUserSubscriptions = jest.fn()
+        const authDeviceSubscriptions = jest.fn()
+        const authDeviceProcessSubscriptions = jest.fn()
+          .mockImplementationOnce(failingMock)
+
+        const authorizer = batchAuthorizer(
+          userId,
+          authUserSubscriptions,
+          authDeviceSubscriptions,
+          authDeviceProcessSubscriptions,
+        )
+
+        authorizer({ name: channelName1 }).authorize(socketId, callback)
+        authorizer({ name: channelName2 }).authorize(socketId, callback)
+        await new Promise(resolve => setTimeout(resolve, 1))
+
+        expect(authDeviceProcessSubscriptions).toHaveBeenCalledTimes(1)
+        expect(callback).toHaveBeenCalledTimes(2)
+        expect(callback).toHaveBeenCalledWith(true, null)
+      })
+    })
+  })
+
+  describe('when subscribing to all three of them', () => {
+    it('calls all the right endpoints and callback', async () => {
+      const userId = faker.datatype.uuid()
+      const deviceId = faker.datatype.uuid()
+      const processId = faker.datatype.uuid()
+      const userChannel = `private-user_${userId}`
+      const deviceChannel = `private-device_${deviceId}`
+      const deviceProcessChannel = `private-device_${deviceId}_process_${processId}`
       const callback = jest.fn()
       const socketId = '12345.54321'
 
-      authorizer({ name: channelName1 }).authorize(socketId, callback)
-      authorizer({ name: channelName2 }).authorize(socketId, callback)
+      const authUserSubscriptions = jest.fn()
+        .mockImplementationOnce(successfulMock)
+      const authDeviceSubscriptions = jest.fn()
+        .mockImplementationOnce(successfulMock)
+      const authDeviceProcessSubscriptions = jest.fn()
+        .mockImplementationOnce(successfulMock)
+
+      const authorizer = batchAuthorizer(
+        userId,
+        authUserSubscriptions,
+        authDeviceSubscriptions,
+        authDeviceProcessSubscriptions,
+      )
+
+      authorizer({ name: userChannel }).authorize(socketId, callback)
+      authorizer({ name: deviceChannel }).authorize(socketId, callback)
+      authorizer({ name: deviceProcessChannel }).authorize(socketId, callback)
       await new Promise(resolve => setTimeout(resolve, 1))
 
-      expect(callback).toHaveBeenCalledTimes(2)
-      expect(callback).toHaveBeenCalledWith(false, { auth: 'token' })
+      expect(authUserSubscriptions).toHaveBeenCalledTimes(1)
+      expect(authDeviceSubscriptions).toHaveBeenCalledTimes(1)
+      expect(authDeviceProcessSubscriptions).toHaveBeenCalledTimes(1)
+      expect(callback).toHaveBeenCalledTimes(3)
+      expect(callback).toHaveBeenNthCalledWith(1, false, { auth: 'token' })
+      expect(callback).toHaveBeenNthCalledWith(2, false, { auth: 'token' })
+      expect(callback).toHaveBeenNthCalledWith(3, false, { auth: 'token' })
     })
   })
 })
