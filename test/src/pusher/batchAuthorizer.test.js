@@ -1,4 +1,4 @@
-const faker = require('faker')
+const { faker } = require('@faker-js/faker')
 const batchAuthorizer = require('batchAuthorizer')
 
 const successfulMock = (userId, { channelNames } = {}) => ({
@@ -35,8 +35,8 @@ describe('batchAuthorizer', () => {
 
   describe('when only non process device channels are authorized', () => {
     it('executes the callback functions when a token is returned', async () => {
-      const userId = faker.datatype.uuid()
-      const deviceId = faker.datatype.uuid()
+      const userId = faker.string.uuid()
+      const deviceId = faker.string.uuid()
       const authorizer = batchAuthorizer(userId, authDeviceSubscriptions, authDeviceProcessSubscriptions)
       const channelName = `private-device_${deviceId}`
       const callback = jest.fn()
@@ -51,8 +51,8 @@ describe('batchAuthorizer', () => {
     })
 
     it('executes the callback function when no token is returned', async () => {
-      const userId = faker.datatype.uuid()
-      const deviceId = faker.datatype.uuid()
+      const userId = faker.string.uuid()
+      const deviceId = faker.string.uuid()
       const authorizer = batchAuthorizer(userId, authDeviceSubscriptions, authDeviceProcessSubscriptions)
       const channelName = `private-device_${deviceId}`
       const callback = jest.fn()
@@ -68,9 +68,9 @@ describe('batchAuthorizer', () => {
 
   describe('when only process device channels are authorized', () => {
     it('executes the callback functions when a token is returned', async () => {
-      const userId = faker.datatype.uuid()
-      const deviceId = faker.datatype.uuid()
-      const processId = faker.datatype.uuid()
+      const userId = faker.string.uuid()
+      const deviceId = faker.string.uuid()
+      const processId = faker.string.uuid()
       const authorizer = batchAuthorizer(userId, authDeviceSubscriptions, authDeviceProcessSubscriptions)
       const channelName = `private-device_${deviceId}_process_${processId}`
       const callback = jest.fn()
@@ -85,9 +85,9 @@ describe('batchAuthorizer', () => {
     })
 
     it('executes the callback function when no token is returned', async () => {
-      const userId = faker.datatype.uuid()
-      const deviceId = faker.datatype.uuid()
-      const processId = faker.datatype.uuid()
+      const userId = faker.string.uuid()
+      const deviceId = faker.string.uuid()
+      const processId = faker.string.uuid()
       const authorizer = batchAuthorizer(userId, authDeviceSubscriptions, authDeviceProcessSubscriptions)
       const channelName = `private-device_${deviceId}_process_${processId}`
       const callback = jest.fn()
@@ -103,9 +103,9 @@ describe('batchAuthorizer', () => {
 
   describe('when device process and non device process channels are authorized', () => {
     it('executes the callback functions when a token is returned', async () => {
-      const userId = faker.datatype.uuid()
-      const deviceId = faker.datatype.uuid()
-      const processId = faker.datatype.uuid()
+      const userId = faker.string.uuid()
+      const deviceId = faker.string.uuid()
+      const processId = faker.string.uuid()
       const authorizer = batchAuthorizer(userId, authDeviceSubscriptions, authDeviceProcessSubscriptions)
       const channelName1 = `private-device_${deviceId}`
       const channelName2 = `private-device_${deviceId}_process_${processId}`

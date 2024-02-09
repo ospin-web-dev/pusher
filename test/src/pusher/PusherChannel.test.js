@@ -1,4 +1,4 @@
-const faker = require('faker')
+const { faker } = require('@faker-js/faker')
 const OspinPusherClient = require('OspinPusherClient')
 const DevicePusherChannel = require('channels/DevicePusherChannel')
 
@@ -16,13 +16,13 @@ describe('the DevicePusherChannel', () => {
     OspinPusherClient.resetOspinPusherClient()
   })
 
-  const connectClient = () => OspinPusherClient.connect({ env: 'dev', userId: faker.datatype.uuid() })
+  const connectClient = () => OspinPusherClient.connect({ env: 'dev', userId: faker.string.uuid() })
 
   describe('subscribe', () => {
     describe('when the client is not connected', () => {
       it('calls console.warn when the event is unknown', () => {
         const spy = jest.spyOn(console, 'warn').mockImplementation()
-        const deviceId = faker.datatype.uuid()
+        const deviceId = faker.string.uuid()
         const eventHandler = { 'device-description-updated': () => {} }
 
         DevicePusherChannel.subscribe({ deviceId }, eventHandler)
@@ -36,7 +36,7 @@ describe('the DevicePusherChannel', () => {
       it('calls console.warn when the event is unknown', () => {
         connectClient()
         const spy = jest.spyOn(console, 'warn').mockImplementation()
-        const deviceId = faker.datatype.uuid()
+        const deviceId = faker.string.uuid()
         const eventHandler = { miracle: () => {} }
 
         DevicePusherChannel.subscribe({ deviceId }, eventHandler)
@@ -50,7 +50,7 @@ describe('the DevicePusherChannel', () => {
       it('calls console.warn when the event is unknown', () => {
         connectClient()
         const spy = jest.spyOn(console, 'warn').mockImplementation()
-        const deviceId = faker.datatype.uuid()
+        const deviceId = faker.string.uuid()
         const eventHandler = { 'device-description-updated': 'notice me senpai' }
 
         DevicePusherChannel.subscribe({ deviceId }, eventHandler)
@@ -64,7 +64,7 @@ describe('the DevicePusherChannel', () => {
   describe('unsubscribe', () => {
     it('calls console.warn when the event is unknown', () => {
       const spy = jest.spyOn(console, 'warn').mockImplementation()
-      const deviceId = faker.datatype.uuid()
+      const deviceId = faker.string.uuid()
 
       DevicePusherChannel.unsubscribe({ deviceId })
 

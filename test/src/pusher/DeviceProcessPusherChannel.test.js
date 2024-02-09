@@ -1,4 +1,4 @@
-const faker = require('faker')
+const { faker } = require('@faker-js/faker')
 const OspinPusherClient = require('OspinPusherClient')
 const DeviceProcessPusherChannel = require('channels/DeviceProcessPusherChannel')
 
@@ -15,7 +15,7 @@ describe('the DeviceProcessPusherChannel', () => {
     jest.clearAllMocks()
   })
 
-  const connectClient = () => OspinPusherClient.connect({ env: 'dev', userId: faker.datatype.uuid() })
+  const connectClient = () => OspinPusherClient.connect({ env: 'dev', userId: faker.string.uuid() })
 
   describe('the getter for EVENTS', () => {
 
@@ -33,8 +33,8 @@ describe('the DeviceProcessPusherChannel', () => {
       const spy = jest.spyOn(client, 'subscribe').mockImplementation(() => ({
         bind: () => {},
       }))
-      const deviceId = faker.datatype.uuid()
-      const processId = faker.datatype.uuid()
+      const deviceId = faker.string.uuid()
+      const processId = faker.string.uuid()
       const eventHandler = { 'future-event-to-be-defined': () => {} }
 
       DeviceProcessPusherChannel.subscribe({ deviceId, processId }, eventHandler)
@@ -48,8 +48,8 @@ describe('the DeviceProcessPusherChannel', () => {
     it('calls client.unsubscribe with the correct parameters', () => {
       const client = connectClient()
       const spy = jest.spyOn(client, 'unsubscribe').mockImplementation()
-      const deviceId = faker.datatype.uuid()
-      const processId = faker.datatype.uuid()
+      const deviceId = faker.string.uuid()
+      const processId = faker.string.uuid()
 
       DeviceProcessPusherChannel.unsubscribe({ deviceId, processId })
 
