@@ -11,55 +11,73 @@ const stopQueueing = () => {
   queueingInterval = null
 }
 
+const uuidRegString = RegexUtils.UUIDV4_REGEX_STRING
+
+const isDeviceChannel = channelName => {
+  const regex = new RegExp(`private-device_${uuidRegString}(|_processes|_maintenance)$`)
+  return regex.test(channelName)
+}
+
 const isDeviceProcessChannel = channelName => {
-  const uuidRegString = RegexUtils.UUIDV4_REGEX_STRING
   const regex = new RegExp(`private-device_${uuidRegString}_process_${uuidRegString}(|_streaming_data)$`)
   return regex.test(channelName)
 }
 
-const getAuthTokens = async (
+const isUserChannel = channelName => {
+  const regex = new RegExp(`private-user_${uuidRegString}$`)
+  return regex.test(channelName)
+}
+
+const getAuthTokens = async ({
   channelNames,
   socketId,
   userId,
+  authUserSubs,
   authDeviceSubs,
   authDeviceProcessSubs,
-) => {
-  const nonDeviceProcessChannelNames = channelNames
-    .filter(channelName => !isDeviceProcessChannel(channelName))
+}) => {
+
+  const requests = []
+
+  const userChannelNames = channelNames
+    .filter(isUserChannel)
+
+  if (userChannelNames.length) {
+    requests.push(authUserSubs(
+      userId,
+      { channelNames: userChannelNames, socketId },
+    ))
+  }
+
+  const deviceChannelNames = channelNames
+    .filter(isDeviceChannel)
+
+  if (deviceChannelNames.length) {
+    requests.push(authDeviceSubs(
+      userId,
+      { channelNames: deviceChannelNames, socketId },
+    ))
+  }
+
   const deviceProcessChannelNames = channelNames
     .filter(isDeviceProcessChannel)
 
-  if (!nonDeviceProcessChannelNames.length) {
-    const { data: { tokens } } = await authDeviceProcessSubs(
+  if (deviceProcessChannelNames.length) {
+    requests.push(authDeviceProcessSubs(
       userId,
       { channelNames: deviceProcessChannelNames, socketId },
-    )
-    return tokens
+    ))
   }
 
-  if (!deviceProcessChannelNames.length) {
-    const { data: { tokens } } = await authDeviceSubs(
-      userId,
-      { channelNames: nonDeviceProcessChannelNames, socketId },
-    )
-    return tokens
-  }
-
-  const [
-    { data: { tokens: deviceProcessChannelTokens } },
-    { data: { tokens: nonDeviceProcessChannelTokens } },
-  ] = await Promise.all([
-    authDeviceSubs(userId, { channelNames: nonDeviceProcessChannelNames, socketId }),
-    authDeviceProcessSubs(
-      userId,
-      { channelNames: deviceProcessChannelNames, socketId },
-    ),
-  ])
-
-  return [ ...deviceProcessChannelTokens, ...nonDeviceProcessChannelTokens ]
+  const res = await Promise.all(requests)
+  return res.flatMap(({ data: { tokens } }) => tokens)
 }
 
-const authorizeChannels = async (authDeviceSubs, authDeviceProcessSubs) => {
+const authorizeChannels = async (
+  authUserSubs,
+  authDeviceSubs,
+  authDeviceProcessSubs,
+) => {
 
   const requests = [ ...queuedRequests ]
   queuedRequests = []
@@ -68,7 +86,14 @@ const authorizeChannels = async (authDeviceSubs, authDeviceProcessSubs) => {
 
   const channelNames = requests.map(req => req.channelName)
 
-  const tokens = await getAuthTokens(channelNames, socketId, userId, authDeviceSubs, authDeviceProcessSubs)
+  const tokens = await getAuthTokens({
+    channelNames,
+    socketId,
+    userId,
+    authUserSubs,
+    authDeviceSubs,
+    authDeviceProcessSubs,
+  })
   // eslint-disable-next-line
   for (const channelTokenResponse of tokens) {
     const { token, channelName } = channelTokenResponse
@@ -82,9 +107,13 @@ const authorizeChannels = async (authDeviceSubs, authDeviceProcessSubs) => {
   }
 }
 
-const startQueingInterval = (authDeviceSubs, authDeviceProcessSubs) => setInterval(async () => {
+const startQueingInterval = (
+  authUserSubs,
+  authDeviceSubs,
+  authDeviceProcessSubs,
+) => setInterval(async () => {
   stopQueueing(queueingInterval)
-  await authorizeChannels(authDeviceSubs, authDeviceProcessSubs)
+  await authorizeChannels(authUserSubs, authDeviceSubs, authDeviceProcessSubs)
 }, QUEUEING_DELAY_IN_MS)
 
 const createRequest = (socketId, channelName, callback, userId) => ({
@@ -94,17 +123,32 @@ const createRequest = (socketId, channelName, callback, userId) => ({
   userId,
 })
 
-const queueRequest = (req, authDeviceSubs, authDeviceProcessSubs) => {
+const queueRequest = (
+  req,
+  authUserSubs,
+  authDeviceSubs,
+  authDeviceProcessSubs,
+) => {
   if (!queueingInterval) {
-    queueingInterval = startQueingInterval(authDeviceSubs, authDeviceProcessSubs)
+    queueingInterval = startQueingInterval(
+      authUserSubs,
+      authDeviceSubs,
+      authDeviceProcessSubs,
+    )
   }
   queuedRequests.push(req)
 }
 
-const batchAuthorizer = (userId, authDeviceSubs, authDeviceProcessSubs) => ({ name }) => ({
+const batchAuthorizer = (
+  userId,
+  authUserSubs,
+  authDeviceSubs,
+  authDeviceProcessSubs,
+) => ({ name }) => ({
   authorize: (socketId, callback) => {
     queueRequest(
       createRequest(socketId, name, callback, userId),
+      authUserSubs,
       authDeviceSubs,
       authDeviceProcessSubs,
     )
