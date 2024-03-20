@@ -15,7 +15,7 @@ describe('the UserPusherChannel', () => {
     jest.clearAllMocks()
   })
 
-  const connectClient = () => OspinPusherClient.connect({ env: 'dev', userId: faker.datatype.uuid() })
+  const connectClient = () => OspinPusherClient.connect({ env: 'dev', userId: faker.string.uuid() })
 
   describe('the getter for EVENTS', () => {
 
@@ -34,7 +34,7 @@ describe('the UserPusherChannel', () => {
       const spy = jest.spyOn(client, 'subscribe').mockImplementation(() => ({
         bind: () => {},
       }))
-      const userId = faker.datatype.uuid()
+      const userId = faker.string.uuid()
       const eventHandler = { 'user-add-notifications': () => {} }
 
       UserPusherChannel.subscribe({ userId }, eventHandler)
@@ -48,7 +48,7 @@ describe('the UserPusherChannel', () => {
     it('calls client.unsubscribe with the correct parameters', () => {
       const client = connectClient()
       const spy = jest.spyOn(client, 'unsubscribe').mockImplementation()
-      const userId = faker.datatype.uuid()
+      const userId = faker.string.uuid()
 
       UserPusherChannel.unsubscribe({ userId })
 
