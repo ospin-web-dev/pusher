@@ -1,4 +1,4 @@
-const faker = require('faker')
+const { faker } = require('@faker-js/faker')
 const OspinPusherClient = require('OspinPusherClient')
 const DeviceProcessStreamingDataPusherChannel = require('channels/DeviceProcessStreamingDataPusherChannel')
 
@@ -15,7 +15,7 @@ describe('the DeviceProcessStreamingDataPusherChannel', () => {
     jest.clearAllMocks()
   })
 
-  const connectClient = () => OspinPusherClient.connect({ env: 'dev', userId: faker.datatype.uuid() })
+  const connectClient = () => OspinPusherClient.connect({ env: 'dev', userId: faker.string.uuid() })
 
   describe('the getter for EVENTS', () => {
 
@@ -35,8 +35,8 @@ describe('the DeviceProcessStreamingDataPusherChannel', () => {
       const spy = jest.spyOn(client, 'subscribe').mockImplementation(() => ({
         bind: () => {},
       }))
-      const deviceId = faker.datatype.uuid()
-      const processId = faker.datatype.uuid()
+      const deviceId = faker.string.uuid()
+      const processId = faker.string.uuid()
       const eventHandler = { 'process-image-created': () => {} }
 
       DeviceProcessStreamingDataPusherChannel.subscribe({ deviceId, processId }, eventHandler)
@@ -50,8 +50,8 @@ describe('the DeviceProcessStreamingDataPusherChannel', () => {
     it('calls client.unsubscribe with the correct parameters', () => {
       const client = connectClient()
       const spy = jest.spyOn(client, 'unsubscribe').mockImplementation()
-      const deviceId = faker.datatype.uuid()
-      const processId = faker.datatype.uuid()
+      const deviceId = faker.string.uuid()
+      const processId = faker.string.uuid()
 
       DeviceProcessStreamingDataPusherChannel.unsubscribe({ deviceId, processId })
 

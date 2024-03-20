@@ -1,5 +1,5 @@
 const Pusher = require('pusher-js')
-const faker = require('faker')
+const { faker } = require('@faker-js/faker')
 const OspinPusherClient = require('OspinPusherClient')
 
 jest.mock('pusher-js', () => {
@@ -18,7 +18,7 @@ describe('the OspinPusherClient', () => {
 
   const initDefaultClient = () => {
     const env = 'dev'
-    const userId = faker.datatype.uuid()
+    const userId = faker.string.uuid()
     const cluster = 'us'
     const initData = { env, userId, cluster }
 
@@ -29,7 +29,7 @@ describe('the OspinPusherClient', () => {
     describe('when NOT already initialized', () => {
       it('returns an instance of the pusher client', () => {
         const env = 'dev'
-        const userId = faker.datatype.uuid()
+        const userId = faker.string.uuid()
         const cluster = 'us'
         const initData = { env, userId, cluster }
 
@@ -40,7 +40,7 @@ describe('the OspinPusherClient', () => {
 
       it('sets the default value for the cluster to eu', () => {
         const env = 'dev'
-        const userId = faker.datatype.uuid()
+        const userId = faker.string.uuid()
         const initData = { env, userId }
 
         const client = OspinPusherClient.connect(initData)
@@ -52,7 +52,7 @@ describe('the OspinPusherClient', () => {
     describe('when initialized beforehand', () => {
       it('returns the existing client', () => {
         const env = 'dev'
-        const userId = faker.datatype.uuid()
+        const userId = faker.string.uuid()
         const cluster = 'us'
         const initData = { env, userId, cluster }
         const existingClient = initDefaultClient()

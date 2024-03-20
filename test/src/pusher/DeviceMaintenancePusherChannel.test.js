@@ -1,4 +1,4 @@
-const faker = require('faker')
+const { faker } = require('@faker-js/faker')
 const OspinPusherClient = require('OspinPusherClient')
 const DeviceMaintenancePusherChannel = require('channels/DeviceMaintenancePusherChannel')
 
@@ -15,7 +15,7 @@ describe('the DeviceMaintenancePusherChannel', () => {
     jest.clearAllMocks()
   })
 
-  const connectClient = () => OspinPusherClient.connect({ env: 'dev', userId: faker.datatype.uuid() })
+  const connectClient = () => OspinPusherClient.connect({ env: 'dev', userId: faker.string.uuid() })
 
   describe('the getter for EVENTS', () => {
 
@@ -34,7 +34,7 @@ describe('the DeviceMaintenancePusherChannel', () => {
       const spy = jest.spyOn(client, 'subscribe').mockImplementation(() => ({
         bind: () => {},
       }))
-      const deviceId = faker.datatype.uuid()
+      const deviceId = faker.string.uuid()
       const eventHandler = { 'device-ssh-connection-opened': () => {} }
 
       DeviceMaintenancePusherChannel.subscribe({ deviceId }, eventHandler)
@@ -48,7 +48,7 @@ describe('the DeviceMaintenancePusherChannel', () => {
     it('calls client.unsubscribe with the correct parameters', () => {
       const client = connectClient()
       const spy = jest.spyOn(client, 'unsubscribe').mockImplementation()
-      const deviceId = faker.datatype.uuid()
+      const deviceId = faker.string.uuid()
 
       DeviceMaintenancePusherChannel.unsubscribe({ deviceId })
 
