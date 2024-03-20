@@ -11,6 +11,7 @@ describe('pusher', () => {
     DeviceProcessesPusherChannel: 'function',
     DeviceProcessPusherChannel: 'function',
     DeviceProcessStreamingDataPusherChannel: 'function',
+    UserPusherChannel: 'function',
   }
 
   function testFunctionPresentInModule(functionName, module) {

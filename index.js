@@ -4,6 +4,7 @@ const DeviceMaintenancePusherChannel = require('./src/channels/DeviceMaintenance
 const DeviceProcessesPusherChannel = require('./src/channels/DeviceProcessesPusherChannel')
 const DeviceProcessPusherChannel = require('./src/channels/DeviceProcessPusherChannel')
 const DeviceProcessStreamingDataPusherChannel = require('./src/channels/DeviceProcessStreamingDataPusherChannel')
+const UserPusherChannel = require('./src/channels/UserPusherChannel')
 
 /**
  * @namespace pusher
@@ -16,4 +17,5 @@ module.exports = {
   DeviceProcessesPusherChannel,
   DeviceProcessPusherChannel,
   DeviceProcessStreamingDataPusherChannel,
+  UserPusherChannel,
 }

@@ -33,6 +33,7 @@ class OspinPusherClient {
     env,
     cluster = 'eu',
     userId,
+    authUserSubscriptions,
     authDeviceSubscriptions,
     authDeviceProcessSubscriptions,
   }) {
@@ -40,7 +41,12 @@ class OspinPusherClient {
     if (OspinPusherClient.client) return OspinPusherClient.client
     OspinPusherClient.client = new Pusher(apiKey, {
       cluster,
-      authorizer: batchAuthorizer(userId, authDeviceSubscriptions, authDeviceProcessSubscriptions),
+      authorizer: batchAuthorizer(
+        userId,
+        authUserSubscriptions,
+        authDeviceSubscriptions,
+        authDeviceProcessSubscriptions,
+      ),
     })
     return OspinPusherClient.client
   }
