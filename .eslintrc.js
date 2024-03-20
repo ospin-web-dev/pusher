@@ -5,7 +5,7 @@ module.exports = {
     'plugin:jest/style',
     'plugin:jest/all',
   ],
-  plugins: ['jest'],
+  plugins: ['jest', 'jsdoc'],
   env: { jest: true },
   rules: {
     'import/no-extraneous-dependencies': 'off',
